@@ -25,6 +25,9 @@ func (db *DB) CreateSuper(super model.Super) (model.Super, error) {
 	var relatives []*model.Relative
 	var groups []*model.Group
 
+	// reset ID because no new super must have ID
+	super.ID = uuid.Nil
+
 	if super.Relatives != nil {
 		relatives = make([]*model.Relative, len(super.Relatives))
 		copy(relatives, super.Relatives)
@@ -120,12 +123,16 @@ func (db *DB) DeleteByID(id string) error {
 		return err
 	}
 
-	if err := db.Model(&super).Association("Relatives").Delete(super.Relatives).Error; err != nil {
-		return err
+	if len(super.Relatives) > 0 {
+		if err := db.Model(&super).Association("Relatives").Delete(super.Relatives).Error; err != nil {
+			return err
+		}
 	}
 
-	if err := db.Model(&super).Association("Groups").Delete(super.Groups).Error; err != nil {
-		return err
+	if len(super.Groups) > 0 {
+		if err := db.Model(&super).Association("Groups").Delete(super.Groups).Error; err != nil {
+			return err
+		}
 	}
 
 	return db.Delete(&super).Error

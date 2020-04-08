@@ -27,5 +27,5 @@ func (db *DB) AutoMigrateAll() error {
 }
 
 func (db *DB) Close() error {
-	return db.Close()
+	return db.DB.Close()
 }

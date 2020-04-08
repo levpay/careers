@@ -162,14 +162,6 @@ func TestDB_DeleteByID(t *testing.T) {
 	mock.ExpectQuery("SELECT \\* FROM \"relatives\".+").WillReturnRows(rows)
 
 	mock.ExpectBegin()
-	mock.ExpectExec("DELETE FROM \"relative_super\".+").WithArgs(uuid.NameSpaceURL).WillReturnResult(sqlmock.NewResult(1, 1))
-	mock.ExpectCommit()
-
-	mock.ExpectBegin()
-	mock.ExpectExec("DELETE FROM \"group_super\".+").WithArgs(uuid.NameSpaceURL).WillReturnResult(sqlmock.NewResult(1, 1))
-	mock.ExpectCommit()
-
-	mock.ExpectBegin()
 	mock.ExpectExec(regexp.QuoteMeta(`DELETE FROM "supers" WHERE "supers"."id" = $1`)).WithArgs(uuid.NameSpaceURL).WillReturnResult(sqlmock.NewResult(1, 1))
 	mock.ExpectCommit()
 
