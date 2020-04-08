@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
-	"github.com/dvdscripter/superheroapi/model"
+	"github.com/dvdscripter/careers/model"
 	"github.com/google/uuid"
 )
 

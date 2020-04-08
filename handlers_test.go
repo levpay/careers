@@ -11,7 +11,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/dvdscripter/superheroapi/model"
+	"github.com/dvdscripter/careers/model"
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 )

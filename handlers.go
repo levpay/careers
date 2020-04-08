@@ -3,7 +3,7 @@ package main
 import (
 	"net/http"
 
-	"github.com/dvdscripter/superheroapi/model"
+	"github.com/dvdscripter/careers/model"
 )
 
 var genericErr = map[string]string{"error": "Oops something went wrong"}

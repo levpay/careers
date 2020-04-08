@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/dvdscripter/superheroapi/storage"
-	"github.com/dvdscripter/superheroapi/storage/sql"
+	"github.com/dvdscripter/careers/storage"
+	"github.com/dvdscripter/careers/storage/sql"
 	"github.com/gorilla/mux"
 )
 

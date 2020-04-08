@@ -1,7 +1,7 @@
 package sql
 
 import (
-	"github.com/dvdscripter/superheroapi/model"
+	"github.com/dvdscripter/careers/model"
 	"github.com/google/uuid"
 )
 

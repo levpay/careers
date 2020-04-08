@@ -13,13 +13,51 @@ go test ./...
 ## Compile o projeto
 
 ```
-go build
+go build -o superheroapi
 ```
 
 ## Execute 
 
 ```
 ./superheroapi --help
+```
+
+## Testando com cURL
+
+Todos os supers
+```
+curl localhost:8000/supers/ -H "Content-Type: application/json"
+```
+
+Todos os supers bonzinhos
+```
+curl localhost:8000/supers/good -H "Content-Type: application/json"
+```
+
+Todos os supers malvados
+```
+curl localhost:8000/supers/bad -H "Content-Type: application/json"
+```
+
+Adicione novo super
+```
+curl localhost:8000/supers/ -H "Content-Type: application/json" -d '{"name":"superman",
+"groups": [{"name": "Justice League"}]}'
+```
+
+Consulte um super, uuid abaixo é um exemplo!
+```
+curl localhost:8000/supers/68ca3ad5-9dc6-4ee0-b11a-ad0d1513c1d5 -H "Content-Type: application/json"
+```
+
+Procure um super pelo nome
+```
+curl -H 'Content-Type: application/json' localhost:8000/supers/search/superman
+```
+
+Delete um super, uuid abaixo é um exemplo!
+```
+curl localhost:8000/supers/68ca3ad5-9dc6-4ee0-b11a-ad0d1513c1d5 -H "Content-Type: application/json" -X DELETE
 ```
 
 ## PostgreSQL
@@ -52,8 +90,6 @@ Edite o ```configuration.toml``` e escolha o endereço e parta de execução.
 [server]
 bind = "127.0.0.1:8000"
 ```
-
-
 
 # Levpay
 
