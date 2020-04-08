@@ -1,0 +1,5 @@
+[database]
+dsn = "postgres://postgres:@localhost/super?sslmode=disable"
+
+[server]
+bind = "0.0.0.0:8000"
