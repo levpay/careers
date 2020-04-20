@@ -17,7 +17,7 @@ Nossa equipe de engenharia é 100% remoto e usamos as seguintes tecnologias:
 
 # Desafio
 ## Golang Developer
-Para o desafio gostaríamos que você crie uma API inspirada em super heróis e vilões para servir um jogo utilizando a SuperHeroAPI (https://superheroapi.com/).
+Para o desafio gostaríamos que você crie uma API inspirada em super heróis e vilões para servir um jogo **utilizando** a SuperHeroAPI (https://superheroapi.com/) como fonte de dados.
 
 ## Requisitos
 
