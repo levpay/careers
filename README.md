@@ -24,6 +24,8 @@ Para o desafio gostaríamos que você crie uma API inspirada em super heróis e 
 A API deve ser escrita em **Golang** e utilizar **PostgreSQL** como armazenamento de dados.
 
 ### Gerais
+- Integrar com a https://superheroapi.com
+
 Através da API deve ser possível:
 - Cadastrar um Super/Vilão
 - Listar todos os Super's cadastrados
