@@ -29,14 +29,19 @@ Todos os supers
 curl localhost:8000/supers/ -H "Content-Type: application/json"
 ```
 
+Procure um super pelo nome
+```
+curl localhost:8000/supers/?name=superman -H 'Content-Type: application/json'
+```
+
 Todos os supers bonzinhos
 ```
-curl localhost:8000/supers/good -H "Content-Type: application/json"
+curl localhost:8000/supers/?alignment=good -H "Content-Type: application/json"
 ```
 
 Todos os supers malvados
 ```
-curl localhost:8000/supers/bad -H "Content-Type: application/json"
+curl localhost:8000/supers/?alignment=bad -H "Content-Type: application/json"
 ```
 
 Adicione novo super
@@ -48,11 +53,6 @@ curl localhost:8000/supers/ -H "Content-Type: application/json" -d '{"name":"sup
 Consulte um super, uuid abaixo é um exemplo!
 ```
 curl localhost:8000/supers/68ca3ad5-9dc6-4ee0-b11a-ad0d1513c1d5 -H "Content-Type: application/json"
-```
-
-Procure um super pelo nome
-```
-curl -H 'Content-Type: application/json' localhost:8000/supers/search/superman
 ```
 
 Delete um super, uuid abaixo é um exemplo!

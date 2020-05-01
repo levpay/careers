@@ -13,8 +13,7 @@ type Super struct {
 	Power        int
 	Occupation   string
 	Image        string
-	Parents      int    `gorm:"-"`
-	Morality     string `gorm:"-"`
+	Parents      int `gorm:"-"`
 
 	Alignment string
 	Groups    []*Group    `gorm:"many2many:group_super;" json:",omitempty"`

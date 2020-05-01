@@ -7,6 +7,8 @@ import (
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/dvdscripter/careers/model"
 	"github.com/google/uuid"
+	"github.com/jinzhu/gorm"
+	"github.com/pkg/errors"
 )
 
 func TestDB_CreateSuper(t *testing.T) {
@@ -116,6 +118,26 @@ func TestDB_FindByName(t *testing.T) {
 	mock.ExpectQuery("SELECT \\* FROM \"relatives\".+").WillReturnRows(rows)
 
 	if _, err := storage.FindByName("batman"); err != nil {
+		t.Errorf("DB.FindByName() error = %v", err)
+		return
+	}
+
+	if err := mock.ExpectationsWereMet(); err != nil {
+		t.Errorf("DB.FindByName() error = %v", err)
+		return
+	}
+}
+
+func TestDB_FindByName_NotFound(t *testing.T) {
+	t.Parallel()
+	storage, mock := newTestDB(t)
+	defer storage.DB.Close()
+
+	rows := sqlmock.NewRows([]string{"id", "name", "full_name", "intelligence", "power", "occupation", "image"})
+
+	mock.ExpectQuery(regexp.QuoteMeta(`SELECT * FROM "supers" WHERE (name = $1) LIMIT 1`)).WithArgs("batman").WillReturnRows(rows)
+
+	if _, err := storage.FindByName("batman"); err != nil && errors.Cause(err) != gorm.ErrRecordNotFound {
 		t.Errorf("DB.FindByName() error = %v", err)
 		return
 	}

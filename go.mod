@@ -8,4 +8,5 @@ require (
 	github.com/gorilla/mux v1.7.4
 	github.com/jinzhu/gorm v1.9.12
 	github.com/pelletier/go-toml v1.7.0
+	github.com/pkg/errors v0.9.1
 )

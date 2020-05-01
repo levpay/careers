@@ -42,9 +42,6 @@ func main() {
 	superRouter := router.PathPrefix("/supers").Headers("Content-Type", "application/json").Subrouter()
 	superRouter.HandleFunc("/", app.NewSuper).Methods(http.MethodPost)
 	superRouter.HandleFunc("/", app.GetAll).Methods(http.MethodGet)
-	superRouter.HandleFunc("/good", app.GetAllGood).Methods(http.MethodGet)
-	superRouter.HandleFunc("/bad", app.GetAllBad).Methods(http.MethodGet)
-	superRouter.HandleFunc("/search/{name}", app.GetByName).Methods(http.MethodGet)
 	superRouter.HandleFunc("/{id}", app.GetByID).Methods(http.MethodGet)
 	superRouter.HandleFunc("/{id}", app.DeleteByID).Methods(http.MethodDelete)
 
@@ -56,7 +53,7 @@ func main() {
 }
 
 func setup(configPath string) *App {
-	logger := log.New(os.Stdout, "", log.LstdFlags|log.Llongfile)
+	logger := log.New(os.Stdout, "", log.LstdFlags)
 
 	config, err := LoadConfig(configPath)
 	if err != nil {

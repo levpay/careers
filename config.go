@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 
 	toml "github.com/pelletier/go-toml"
+	"github.com/pkg/errors"
 )
 
 type Database struct {
@@ -27,11 +28,11 @@ func LoadConfig(path string) (*Config, error) {
 
 	confContent, err := ioutil.ReadFile(path)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrapf(err, "cannot read config %v", path)
 	}
 
 	if err := toml.Unmarshal(confContent, config); err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "cannot unmarshal config")
 	}
 
 	return config, err
