@@ -1,4 +1,8 @@
-# Documentação especifica dessa instância desafio
+# Desafio
+[![Go Report Card](https://goreportcard.com/badge/github.com/dvdscripter/careers)](https://goreportcard.com/report/github.com/dvdscripter/careers)
+[![codecov](https://codecov.io/gh/dvdscripter/careers/branch/master/graph/badge.svg)](https://codecov.io/gh/dvdscripter/careers)
+
+
 
 ## Dependências
 

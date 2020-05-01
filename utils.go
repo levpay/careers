@@ -10,8 +10,6 @@ import (
 	"github.com/pkg/errors"
 )
 
-var ErrVarNotFound = errors.New("var not found")
-
 func (app *App) Error(w http.ResponseWriter, err error, publicMessage string, statusCode int) {
 
 	switch errors.Cause(err) {
@@ -45,7 +43,7 @@ func getVar(r *http.Request, key string) (string, error) {
 	vars := mux.Vars(r)
 	named, exist := vars[key]
 	if !exist {
-		return "", ErrVarNotFound
+		return "", errors.New("var not found")
 	}
 	return named, nil
 }
