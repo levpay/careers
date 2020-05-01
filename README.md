@@ -1,7 +1,7 @@
 # Desafio
 [![Go Report Card](https://goreportcard.com/badge/github.com/dvdscripter/careers)](https://goreportcard.com/report/github.com/dvdscripter/careers)
 [![codecov](https://codecov.io/gh/dvdscripter/careers/branch/master/graph/badge.svg)](https://codecov.io/gh/dvdscripter/careers)
-
+[![Build Status](https://travis-ci.org/dvdscripter/careers.svg?branch=master)](https://travis-ci.org/dvdscripter/careers)
 
 
 ## Dependências
