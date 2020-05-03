@@ -7,14 +7,15 @@ type SuperOrVilan struct {
 	CreatedAt        time.Time
 	UpdatedAt        time.Time
 	DeletedAt        *time.Time `sql:"index"`
-	Name             string   `json:"name" gorm:"unique;not null"`
+	Name             string   `json:"name" gorm:"unique"`
 	FullName         string   `json:"fullname"`
 	Intelligence     string   `json:"intelligence"`
+	Alignment        string   `json:"alignment"`
 	Power            string   `json:"power"`
 	Occupation       string   `json:"occupation"`
 	Image            string   `json:"image"`
-	GroupAffiliation []string `json:"groupAffiliation"`
-	Relatives        []string `json:"relatives"`
+	GroupAffiliation string   `json:"groupAffiliation" binding:"required"`
+	Relatives        string   `json:"groupAffiliation" binding:"relatives"`
 	Deleted          bool     `json:"deleted"`
 }
 type SuperOrVilanSearch struct {
@@ -25,17 +26,18 @@ type SuperOrVilanSearch struct {
 	Power            string   `json:"power"`
 	Occupation       string   `json:"occupation"`
 	Image            string   `json:"image"`
-	GroupAffiliation []string `json:"groupAffiliation"`
+	GroupAffiliation string   `json:"groupAffiliation"`
 	Relatives        int `json:"relatives"`
 }
 //Biding inputs
 type SuperOrVilanInput struct {
-	Name             string   `json:"name"             binding:"required" `
-	FullName         string   `json:"fullname"         binding:"required" `
-	Intelligence     string   `json:"intelligence"     binding:"required" `
-	Power            string   `json:"power"            binding:"required" `
-	Occupation       string   `json:"occupation"       binding:"required" `
-	Image            string   `json:"image"            binding:"required" `
-	GroupAffiliation []string `json:"groupAffiliation" binding:"required" `
-	Relatives        []string `json:"relatives"        binding:"required" `
+	Name             string            `json:"name"              `
+	FullName         string            `json:"fullname"          `
+	Alignment        string            `json:"alignment"         `
+	Intelligence     string            `json:"intelligence"      `
+	Power            string            `json:"power"             `
+	Occupation       string            `json:"occupation"        `
+	Image            string            `json:"image"             `
+	GroupAffiliation string            `json:"groupAffiliation"  `
+	Relatives        string            `json:"relatives"         `
 }

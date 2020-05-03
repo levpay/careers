@@ -1,0 +1,32 @@
+Olá :D
+Para Popular a API com base na heroSuper,favor :
+-rodar a api dentro de API,
+-rodar o arquivo dentro de "Please Run this to populate the API"
+
+Requisitos:
+===============================
+Através da API deve ser possível:
+
+Cadastrar um Super/Vilão
+Listar todos os Super's cadastrados
+Listar apenas os Super Heróis
+Listar apenas os Super Vilões
+Buscar por nome
+Buscar por 'uuid'
+Remover o Super
+
+CAMPOS:
+===============================
+API deve seguir a arquitetura REST
+API deve seguir os principios do 12 factor app
+Cada super deve ser cadastrado somente a partir do seu name.
+A pesquisa por um super deve conter os seguintes campos:
+uuid
+name
+full name
+intelligence
+power
+occupation
+image
+lista de grupos em que tal super está associado
+número de parentes
