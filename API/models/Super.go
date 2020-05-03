@@ -15,6 +15,7 @@ type SuperOrVilan struct {
 	Image            string   `json:"image"`
 	GroupAffiliation []string `json:"groupAffiliation"`
 	Relatives        []string `json:"relatives"`
+	Deleted          bool     `json:"deleted"`
 }
 type SuperOrVilanSearch struct {
 	Uuid             uint32   `gorm:"primary_key"`

@@ -7,6 +7,7 @@ import (
 	"github.com/jinzhu/gorm"
 	"net/http"
 	"strings"
+	"time"
 )
 
 //Cadastrar um Super/Vilão
@@ -20,7 +21,7 @@ func CreateSuperOrVilan(c *gin.Context) {
 		return
 	}
 	//Cada super deve ser cadastrado somente a partir do seu name.
-	if db.Where("name", input.Name).RecordNotFound() {
+	if db.Where("name = ? AND deleted ", input.Name,false).RecordNotFound() {
 		superOrVilan := models.SuperOrVilan{
 			Name:         input.Name,
 			FullName:     input.FullName,
@@ -39,7 +40,6 @@ func CreateSuperOrVilan(c *gin.Context) {
 	c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
 		"error": "registro existente",
 	})
-
 }
 //Listar todos os Super's cadastrados
 func ListAllSuperOrVilan(c *gin.Context) {
@@ -76,7 +76,19 @@ func SearchByUuid(c *gin.Context){
 	population(superDatabase,&superSearch)
 	c.JSON(http.StatusOK,gin.H{"success":superSearch})
 }
-
+//Remover o Super
+func RemoveSuper(c *gin.Context){
+	db := c.MustGet("db").(*gorm.DB)
+	var superDatabase models.SuperOrVilan
+	if err:=dataBaseSearch("name",c.Query("uuid"),c,&superDatabase);err!=nil{
+		c.AbortWithStatusJSON(http.StatusInternalServerError,gin.H{"error":err.Error()})
+	}
+	db.Model(&superDatabase).Update(map[string]interface{}{
+		"deleted": true,
+		"deleted_at": time.Now().Unix(),
+		"actived": false,
+	})
+}
 //FieldOfSearch
 func dataBaseSearch(fieldOfSearch string,Query string,c *gin.Context, superDatabase*models.SuperOrVilan) error{
 	db := c.MustGet("db").(*gorm.DB)
@@ -85,7 +97,7 @@ func dataBaseSearch(fieldOfSearch string,Query string,c *gin.Context, superDatab
 		return errors.New("parametro invalido")
 	}
 	//Recuperando os dados do BD
-	if err:=db.Where(""+ fieldOfSearch+" = ?",Query).Find(superDatabase).Error;err!=nil{
+	if err:=db.Where(""+ fieldOfSearch+" = ? AND deleted = ?",Query,false).Find(superDatabase).Error;err!=nil{
 		return  errors.New(err.Error())
 	}
 	return nil

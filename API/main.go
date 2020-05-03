@@ -14,10 +14,11 @@ func main() {
 		c.Set("DB", db)
 		c.Next()
 	})
-	r.POST("/create", controllers.CreateSuperOrVilan)
-	r.GET("/list/all", controllers.ListAllSuperOrVilan)
-	r.GET("/search/name",controllers.SearchByName)
-	r.GET("/search/uuid",controllers.SearchByUuid)
+	r.POST( "/create/user",controllers.CreateSuperOrVilan)
+	r.GET(  "/list/all"   ,controllers.ListAllSuperOrVilan)
+	r.GET(  "/search/name",controllers.SearchByName)
+	r.GET(  "/search/uuid",controllers.SearchByUuid)
+	r.PATCH("/delete/user",controllers.RemoveSuper)
 	//Cadastrar um Super/Vilão
 	//Listar todos os Super's cadastrados
 	//Listar apenas os Super Heróis
