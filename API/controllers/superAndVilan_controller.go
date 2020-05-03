@@ -82,12 +82,17 @@ func RemoveSuper(c *gin.Context){
 	var superDatabase models.SuperOrVilan
 	if err:=dataBaseSearch("name",c.Query("uuid"),c,&superDatabase);err!=nil{
 		c.AbortWithStatusJSON(http.StatusInternalServerError,gin.H{"error":err.Error()})
+		return
 	}
-	db.Model(&superDatabase).Update(map[string]interface{}{
+	if err :=db.Model(&superDatabase).Update(map[string]interface{}{
 		"deleted": true,
 		"deleted_at": time.Now().Unix(),
 		"actived": false,
-	})
+	}).Error;err!=nil{
+		c.AbortWithStatusJSON(http.StatusInternalServerError,gin.H{"error":err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK,gin.H{"success":"user soft removed by name"})
 }
 //FieldOfSearch
 func dataBaseSearch(fieldOfSearch string,Query string,c *gin.Context, superDatabase*models.SuperOrVilan) error{
