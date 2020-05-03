@@ -39,3 +39,18 @@ func CreateSuperOrVilan(c *gin.Context) {
 	})
 
 }
+//Listar todos os Super's cadastrados
+func ListAllSuperOrVilan(c *gin.Context) {
+	db := c.MustGet("db").(*gorm.DB)
+	var supers []models.SuperOrVilan
+	if err := db.Find(&supers).Error; err != nil {
+		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"success": supers,
+	})
+	return
+}

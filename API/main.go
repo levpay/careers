@@ -15,7 +15,7 @@ func main() {
 		c.Next()
 	})
 	r.POST("/create", controllers.CreateSuperOrVilan)
-
+	r.GET("/list/all", controllers.ListAllSuperOrVilan)
 
 	//Cadastrar um Super/Vilão
 	//Listar todos os Super's cadastrados
