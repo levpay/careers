@@ -17,7 +17,7 @@ func main() {
 	r.POST("/create", controllers.CreateSuperOrVilan)
 	r.GET("/list/all", controllers.ListAllSuperOrVilan)
 	r.GET("/search/name",controllers.SearchByName)
-
+	r.GET("/search/uuid",controllers.SearchByUuid)
 	//Cadastrar um Super/Vilão
 	//Listar todos os Super's cadastrados
 	//Listar apenas os Super Heróis

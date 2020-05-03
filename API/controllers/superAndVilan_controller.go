@@ -66,6 +66,16 @@ func SearchByName(c *gin.Context){
 	population(superDatabase,&superSearch)
 	c.JSON(http.StatusOK,gin.H{"success":superSearch})
 }
+//Buscar por 'uuid'
+func SearchByUuid(c *gin.Context){
+	var superDatabase models.SuperOrVilan
+	if err:=dataBaseSearch("name",c.Query("uuid"),c,&superDatabase);err!=nil{
+		c.AbortWithStatusJSON(http.StatusInternalServerError,gin.H{"error":err.Error()})
+	}
+	var superSearch models.SuperOrVilanSearch
+	population(superDatabase,&superSearch)
+	c.JSON(http.StatusOK,gin.H{"success":superSearch})
+}
 
 //FieldOfSearch
 func dataBaseSearch(fieldOfSearch string,Query string,c *gin.Context, superDatabase*models.SuperOrVilan) error{
