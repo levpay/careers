@@ -20,10 +20,18 @@ Para o desenvolvimento desta API foi utilizada a versão 1.14 do Go.
 ### Dependências
 
 Foram utilizadas as seguintes bibliotecas para o desenvolvimento desta API:
-
+- github.com/gorilla/mux
 
 É possível baixar todas as dependências executando o seguinte comando no diretório raiz do projeto:
 
 ```shell
 go mod download
+```
+
+## Executar
+
+Para executar a API basta executar o seguinte comando, no diretório raiz do projeto:
+
+```shell
+go run src/github.com/carlsonsantana/superheroapi/*.go
 ```
