@@ -1,4 +1,4 @@
-package main
+package superheroapi
 
 import (
 	"log"
@@ -7,16 +7,16 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func initPaths(router *mux.Router, routes []Route) {
+func InitPaths(router *mux.Router, routes []Route) {
 	for _, route := range routes {
 		router.HandleFunc(route.path, route.handler).Methods(route.method)
 	}
 }
 
-func initAPI() {
+func InitAPI() {
 	router := mux.NewRouter().StrictSlash(true)
 
-	initPaths(router, getRoutes())
+	InitPaths(router, GetRoutes())
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

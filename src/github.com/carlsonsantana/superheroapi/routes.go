@@ -1,4 +1,4 @@
-package main
+package superheroapi
 
 import "net/http"
 
@@ -8,7 +8,13 @@ type Route struct {
 	handler http.HandlerFunc
 }
 
-func getRoutes() []Route {
-	routes := []Route{}
+func GetRoutes() []Route {
+	routes := []Route{
+		Route{
+			"POST",
+			"/super",
+			AddSuper,
+		},
+	}
 	return routes
 }

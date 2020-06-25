@@ -25,13 +25,37 @@ Foram utilizadas as seguintes bibliotecas para o desenvolvimento desta API:
 É possível baixar todas as dependências executando o seguinte comando no diretório raiz do projeto:
 
 ```shell
+cd src/github.com/carlsonsantana/superheroapi/
 go mod download
 ```
 
 ## Executar
 
-Para executar a API basta executar o seguinte comando, no diretório raiz do projeto:
+Para executar a API basta executar os seguintes comandos, no diretório raiz do projeto:
 
 ```shell
-go run src/github.com/carlsonsantana/superheroapi/*.go
+# Construindo o pacote "superheroapi"
+cd src/github.com/carlsonsantana/superheroapi/
+go build
+
+# Instalando pacote "main"
+cd main
+go install
+
+# Executanto aplicação
+go run github.com/carlsonsantana/superheroapi/main
+```
+
+## Testar
+
+Para testar a API basta executar os seguintes comandos, no diretório raiz do projeto:
+
+```shell
+# Construindo o pacote "superheroapi"
+cd src/github.com/carlsonsantana/superheroapi/
+go build
+
+# Executanto testes
+cd tests
+go test
 ```

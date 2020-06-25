@@ -16,3 +16,8 @@
 
 # Environment variable files
 .env
+
+pkg/
+bin/
+!pkg/.gitkeep
+!bin/.gitkeep
