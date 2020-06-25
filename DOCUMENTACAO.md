@@ -12,6 +12,7 @@ Para executar o projeto é necessário que as seguintes variáveis de ambiente e
 
 - `GOROOT` com o valor igual ao diretório raiz do Go;
 - `GOPATH` com o valor igual ao diretório onde as dependências serão instaladas.
+- `SUPERHEROAPI_TOKEN` com o valor do token da API do webservice [SuperHero API](https://superheroapi.com/).
 
 ### Versão do GO
 

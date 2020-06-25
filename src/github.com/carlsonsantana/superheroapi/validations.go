@@ -19,3 +19,21 @@ func ValidateParameterRequired(name string, value string) *ValidationError {
 	}
 	return nil
 }
+
+func ValidateSuperExistsInAPI(name string) *ValidationError {
+	response, err := SearchSuper(name)
+	if err != nil || response.StatusCode != http.StatusOK {
+		return &ValidationError{http.StatusInternalServerError, "Erro interno"}
+	}
+	superAPIResponse := GetSuperAPIResponseFromResponse(response)
+	if superAPIResponse.Error != "" {
+		return &ValidationError{
+			http.StatusFailedDependency,
+			fmt.Sprintf(
+				"Não foi possível encontrar um super com o nome '%s'.",
+				name,
+			),
+		}
+	}
+	return nil
+}

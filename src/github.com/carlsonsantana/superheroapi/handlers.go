@@ -38,10 +38,24 @@ func writeResponse(responseWriter http.ResponseWriter, response APIResponse) {
 	json.NewEncoder(responseWriter).Encode(response.body)
 }
 
+func writeResponseErrorIfHasError(
+	responseWriter http.ResponseWriter,
+	validationError *ValidationError,
+) {
+	if validationError != nil {
+		writeResponse(responseWriter, createResponseError(validationError))
+	}
+}
+
 func AddSuper(responseWriter http.ResponseWriter, request *http.Request) {
 	name := getParameter(request, "name")
 
-	if err := ValidateParameterRequired("name", name); err != nil {
-		writeResponse(responseWriter, createResponseError(err))
-	}
+	writeResponseErrorIfHasError(
+		responseWriter,
+		ValidateParameterRequired("name", name),
+	)
+	writeResponseErrorIfHasError(
+		responseWriter,
+		ValidateSuperExistsInAPI(name),
+	)
 }
