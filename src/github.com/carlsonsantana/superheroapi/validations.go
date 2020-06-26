@@ -21,12 +21,12 @@ func ValidateParameterRequired(name string, value string) *ValidationError {
 }
 
 func ValidateSuperExistsInAPI(name string) *ValidationError {
-	response, err := SearchSuper(name)
+	response, err := SearchSuperHeroAPI(name)
 	if err != nil || response.StatusCode != http.StatusOK {
 		return &ValidationError{http.StatusInternalServerError, "Erro interno"}
 	}
-	superAPIResponse := GetSuperAPIResponseFromResponse(response)
-	if superAPIResponse.Error != "" {
+	superHeroAPIResponse := GetSuperHeroAPIResponseFromResponse(response)
+	if superHeroAPIResponse.Error != "" {
 		return &ValidationError{
 			http.StatusFailedDependency,
 			fmt.Sprintf(

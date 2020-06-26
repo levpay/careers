@@ -1,24 +1,25 @@
 package superheroapi
 
-type SuperGroup struct {
-	uuid string
-	name string
-}
+import (
+	"github.com/satori/go.uuid"
+	"strconv"
+	"strings"
+)
 
 type Super struct {
-	uuid         string
-	name         string
-	fullName     string
-	intelligence int
-	power        int
-	occupation   string
-	image        string
-	groups       []SuperGroup
-	category     string
-	relatives    []string
+	UUID            string   `json:"uuid"`
+	Name            string   `json:"name"`
+	FullName        string   `json:"full-name"`
+	Intelligence    int      `json:"intelligence"`
+	Power           int      `json:"power"`
+	Occupation      string   `json:"occupation"`
+	Image           string   `json:"image"`
+	Groups          []string `json:"groups"`
+	Category        string   `json:"category"`
+	NumberRelatives int      `json:"number-relatives"`
 }
 
-type SuperAPIResponsePowerStatus struct {
+type SuperHeroAPIPowerStatus struct {
 	Intelligence string `json:"intelligence"`
 	Strength     string `json:"strength"`
 	Speed        string `json:"speed"`
@@ -27,7 +28,7 @@ type SuperAPIResponsePowerStatus struct {
 	Combat       string `json:"combat"`
 }
 
-type SuperAPIResponseBiography struct {
+type SuperHeroAPIBiography struct {
 	FullName        string   `json:"full-name"`
 	AlterEgos       string   `json:"alter-egos"`
 	Aliases         []string `json:"aliases"`
@@ -37,7 +38,7 @@ type SuperAPIResponseBiography struct {
 	Alignment       string   `json:"alignment"`
 }
 
-type SuperAPIResponseAppearance struct {
+type SuperHeroAPIAppearance struct {
 	Gender    string   `json:"gender"`
 	Race      string   `json:"race"`
 	Height    []string `json:"height"`
@@ -46,33 +47,68 @@ type SuperAPIResponseAppearance struct {
 	HairColor string   `json:"hair-color"`
 }
 
-type SuperAPIResponseWork struct {
+type SuperHeroAPIWork struct {
 	Occupation string `json:"occupation"`
 	Case       string `json:"case"`
 }
 
-type SuperAPIResponseConnections struct {
+type SuperHeroAPIConnections struct {
 	GroupAffiliation string `json:"group-affiliation"`
 	Relatives        string `json:"relatives"`
 }
 
-type SuperAPIResponseImage struct {
+type SuperHeroAPIImage struct {
 	URL string `json:"url"`
 }
 
-type SuperAPIResponseSuper struct {
-	Id          string                      `json:"id"`
-	Name        string                      `json:"name"`
-	Powerstats  SuperAPIResponsePowerStatus `json:"powerstats"`
-	Biography   SuperAPIResponseBiography   `json:"biography"`
-	Appearance  SuperAPIResponseAppearance  `json:"appearance"`
-	Work        SuperAPIResponseWork        `json:"work"`
-	Connections SuperAPIResponseConnections `json:"connections"`
-	Image       SuperAPIResponseImage       `json:"image"`
+type SuperHeroAPISuper struct {
+	Id          string                  `json:"id"`
+	Name        string                  `json:"name"`
+	Powerstats  SuperHeroAPIPowerStatus `json:"powerstats"`
+	Biography   SuperHeroAPIBiography   `json:"biography"`
+	Appearance  SuperHeroAPIAppearance  `json:"appearance"`
+	Work        SuperHeroAPIWork        `json:"work"`
+	Connections SuperHeroAPIConnections `json:"connections"`
+	Image       SuperHeroAPIImage       `json:"image"`
 }
 
-type SuperAPIResponse struct {
-	Response string                  `json:"response"`
-	Results  []SuperAPIResponseSuper `json:"results"`
-	Error    string                  `json:"error"`
+func ConvertSuperHeroAPIResponseToSuper(
+	superHeroAPIResponse *SuperHeroAPIResponse,
+) []Super {
+	if superHeroAPIResponse.Error != "" {
+		return nil
+	}
+	supersHeroAPIResults := superHeroAPIResponse.Results
+	supers := []Super{}
+	for _, superHeroAPIResult := range supersHeroAPIResults {
+		intelligence, _ := strconv.Atoi(
+			superHeroAPIResult.Powerstats.Intelligence,
+		)
+		power, _ := strconv.Atoi(superHeroAPIResult.Powerstats.Power)
+		var category string
+		if superHeroAPIResult.Biography.Alignment == "good" {
+			category = "hero"
+		} else if superHeroAPIResult.Biography.Alignment == "bad" {
+			category = "villain"
+		} else {
+			category = "neutral"
+		}
+		super := Super{
+			uuid.NewV4().String(),
+			superHeroAPIResult.Name,
+			superHeroAPIResult.Biography.FullName,
+			intelligence,
+			power,
+			superHeroAPIResult.Work.Occupation,
+			superHeroAPIResult.Image.URL,
+			strings.Split(
+				superHeroAPIResult.Connections.GroupAffiliation,
+				", ",
+			),
+			category,
+			len(strings.Split(superHeroAPIResult.Connections.Relatives, ", ")),
+		}
+		supers = append(supers, super)
+	}
+	return supers
 }

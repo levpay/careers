@@ -8,7 +8,13 @@ import (
 	"os"
 )
 
-func SearchSuper(name string) (*http.Response, error) {
+type SuperHeroAPIResponse struct {
+	Response string              `json:"response"`
+	Results  []SuperHeroAPISuper `json:"results"`
+	Error    string              `json:"error"`
+}
+
+func SearchSuperHeroAPI(name string) (*http.Response, error) {
 	url := fmt.Sprintf(
 		"https://www.superheroapi.com/api/%s/search/%s",
 		os.Getenv("SUPERHEROAPI_TOKEN"),
@@ -17,12 +23,12 @@ func SearchSuper(name string) (*http.Response, error) {
 	return http.Get(url)
 }
 
-func GetSuperAPIResponseFromResponse(
+func GetSuperHeroAPIResponseFromResponse(
 	response *http.Response,
-) *SuperAPIResponse {
+) *SuperHeroAPIResponse {
 	defer response.Body.Close()
 	body, _ := ioutil.ReadAll(response.Body)
-	superAPIResponse := &SuperAPIResponse{}
-	json.Unmarshal(body, superAPIResponse)
-	return superAPIResponse
+	superHeroAPIResponse := &SuperHeroAPIResponse{}
+	json.Unmarshal(body, superHeroAPIResponse)
+	return superHeroAPIResponse
 }

@@ -29,6 +29,11 @@ func createResponseError(validationError *ValidationError) APIResponse {
 	}
 }
 
+func createResponseSucess(supers []Super) APIResponse {
+	responseBody := APIResponseBody{"sucess", supers, ""}
+	return APIResponse{http.StatusOK, responseBody}
+}
+
 func getParameter(request *http.Request, name string) string {
 	return request.PostFormValue("name")
 }
@@ -47,7 +52,10 @@ func writeResponseErrorIfHasError(
 	}
 }
 
-func AddSuper(responseWriter http.ResponseWriter, request *http.Request) {
+func AddSuperHandler(
+	responseWriter http.ResponseWriter,
+	request *http.Request,
+) {
 	name := getParameter(request, "name")
 
 	writeResponseErrorIfHasError(
@@ -58,4 +66,9 @@ func AddSuper(responseWriter http.ResponseWriter, request *http.Request) {
 		responseWriter,
 		ValidateSuperExistsInAPI(name),
 	)
+	response, _ := SearchSuperHeroAPI(name)
+	superHeroAPIResponse := GetSuperHeroAPIResponseFromResponse(response)
+	supers := ConvertSuperHeroAPIResponseToSuper(superHeroAPIResponse)
+	AddSupersDatabase(supers)
+	writeResponse(responseWriter, createResponseSucess(supers))
 }

@@ -13,7 +13,7 @@ func GetRoutes() []Route {
 		Route{
 			"POST",
 			"/super",
-			AddSuper,
+			AddSuperHandler,
 		},
 	}
 	return routes

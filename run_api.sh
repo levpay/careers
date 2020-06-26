@@ -7,6 +7,12 @@ cd src/github.com/carlsonsantana/superheroapi/
 go build
 echo "Pacote 'superheroapi' finalizado."
 
+echo "Migrando o banco de dados..."
+cd migrations
+go run *.go migrate
+cd ..
+echo "Banco de dados migrado."
+
 echo "Instalando pacote 'main'..."
 cd main
 go install
