@@ -20,12 +20,20 @@ func ValidateParameterRequired(name string, value string) *ValidationError {
 	return nil
 }
 
-func ValidateSuperExistsInAPI(name string) *ValidationError {
-	response, err := SearchSuperHeroAPI(name)
+func ValidateErrorInSuperHeroAPI(
+	response *http.Response,
+	err error,
+) *ValidationError {
 	if err != nil || response.StatusCode != http.StatusOK {
 		return &ValidationError{http.StatusInternalServerError, "Erro interno"}
 	}
-	superHeroAPIResponse := GetSuperHeroAPIResponseFromResponse(response)
+	return nil
+}
+
+func ValidateSuperExistsInSuperHeroAPI(
+	superHeroAPIResponse *SuperHeroAPIResponse,
+	name string,
+) *ValidationError {
 	if superHeroAPIResponse.Error != "" {
 		return &ValidationError{
 			http.StatusFailedDependency,

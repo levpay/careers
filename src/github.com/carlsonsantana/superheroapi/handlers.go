@@ -43,31 +43,31 @@ func writeResponse(responseWriter http.ResponseWriter, response APIResponse) {
 	json.NewEncoder(responseWriter).Encode(response.body)
 }
 
-func writeResponseErrorIfHasError(
-	responseWriter http.ResponseWriter,
-	validationError *ValidationError,
-) {
-	if validationError != nil {
-		writeResponse(responseWriter, createResponseError(validationError))
-	}
-}
-
 func AddSuperHandler(
 	responseWriter http.ResponseWriter,
 	request *http.Request,
 ) {
 	name := getParameter(request, "name")
 
-	writeResponseErrorIfHasError(
-		responseWriter,
-		ValidateParameterRequired("name", name),
-	)
-	writeResponseErrorIfHasError(
-		responseWriter,
-		ValidateSuperExistsInAPI(name),
-	)
-	response, _ := SearchSuperHeroAPI(name)
+	if err := ValidateParameterRequired("name", name); err != nil {
+		writeResponse(responseWriter, createResponseError(err))
+		return
+	}
+
+	response, searchErr := SearchSuperHeroAPI(name)
+	defer response.Body.Close()
+	if err := ValidateErrorInSuperHeroAPI(response, searchErr); err != nil {
+		writeResponse(responseWriter, createResponseError(err))
+		return
+	}
+
 	superHeroAPIResponse := GetSuperHeroAPIResponseFromResponse(response)
+
+	if err := ValidateSuperExistsInSuperHeroAPI(superHeroAPIResponse, name); err != nil {
+		writeResponse(responseWriter, createResponseError(err))
+		return
+	}
+
 	supers := ConvertSuperHeroAPIResponseToSuper(superHeroAPIResponse)
 	AddSupersDatabase(supers)
 	writeResponse(responseWriter, createResponseSucess(supers))

@@ -7,7 +7,8 @@ import (
 )
 
 type Super struct {
-	UUID            string   `json:"uuid"`
+	UUID            string `json:"uuid"`
+	SuperHeroAPIID  int
 	Name            string   `json:"name"`
 	FullName        string   `json:"full-name"`
 	Intelligence    int      `json:"intelligence"`
@@ -62,7 +63,7 @@ type SuperHeroAPIImage struct {
 }
 
 type SuperHeroAPISuper struct {
-	Id          string                  `json:"id"`
+	ID          string                  `json:"id"`
 	Name        string                  `json:"name"`
 	Powerstats  SuperHeroAPIPowerStatus `json:"powerstats"`
 	Biography   SuperHeroAPIBiography   `json:"biography"`
@@ -81,34 +82,39 @@ func ConvertSuperHeroAPIResponseToSuper(
 	supersHeroAPIResults := superHeroAPIResponse.Results
 	supers := []Super{}
 	for _, superHeroAPIResult := range supersHeroAPIResults {
-		intelligence, _ := strconv.Atoi(
-			superHeroAPIResult.Powerstats.Intelligence,
-		)
-		power, _ := strconv.Atoi(superHeroAPIResult.Powerstats.Power)
-		var category string
-		if superHeroAPIResult.Biography.Alignment == "good" {
-			category = "hero"
-		} else if superHeroAPIResult.Biography.Alignment == "bad" {
-			category = "villain"
-		} else {
-			category = "neutral"
+		superHeroAPIID, _ := strconv.Atoi(superHeroAPIResult.ID)
+		super := GetSuperBySuperHeroAPIIDDatabase(superHeroAPIID)
+		if super == nil {
+			intelligence, _ := strconv.Atoi(
+				superHeroAPIResult.Powerstats.Intelligence,
+			)
+			power, _ := strconv.Atoi(superHeroAPIResult.Powerstats.Power)
+			var category string
+			if superHeroAPIResult.Biography.Alignment == "good" {
+				category = "hero"
+			} else if superHeroAPIResult.Biography.Alignment == "bad" {
+				category = "villain"
+			} else {
+				category = "neutral"
+			}
+			super = &Super{
+				uuid.NewV4().String(),
+				superHeroAPIID,
+				superHeroAPIResult.Name,
+				superHeroAPIResult.Biography.FullName,
+				intelligence,
+				power,
+				superHeroAPIResult.Work.Occupation,
+				superHeroAPIResult.Image.URL,
+				strings.Split(
+					superHeroAPIResult.Connections.GroupAffiliation,
+					", ",
+				),
+				category,
+				len(strings.Split(superHeroAPIResult.Connections.Relatives, ", ")),
+			}
 		}
-		super := Super{
-			uuid.NewV4().String(),
-			superHeroAPIResult.Name,
-			superHeroAPIResult.Biography.FullName,
-			intelligence,
-			power,
-			superHeroAPIResult.Work.Occupation,
-			superHeroAPIResult.Image.URL,
-			strings.Split(
-				superHeroAPIResult.Connections.GroupAffiliation,
-				", ",
-			),
-			category,
-			len(strings.Split(superHeroAPIResult.Connections.Relatives, ", ")),
-		}
-		supers = append(supers, super)
+		supers = append(supers, *super)
 	}
 	return supers
 }

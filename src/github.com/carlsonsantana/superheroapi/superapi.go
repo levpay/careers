@@ -26,7 +26,6 @@ func SearchSuperHeroAPI(name string) (*http.Response, error) {
 func GetSuperHeroAPIResponseFromResponse(
 	response *http.Response,
 ) *SuperHeroAPIResponse {
-	defer response.Body.Close()
 	body, _ := ioutil.ReadAll(response.Body)
 	superHeroAPIResponse := &SuperHeroAPIResponse{}
 	json.Unmarshal(body, superHeroAPIResponse)
