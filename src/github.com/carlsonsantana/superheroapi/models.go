@@ -7,8 +7,8 @@ import (
 )
 
 type Super struct {
-	UUID            string `json:"uuid"`
-	SuperHeroAPIID  int
+	UUID            string   `json:"uuid"`
+	SuperHeroAPIID  int      `json:"superheroapi-id"`
 	Name            string   `json:"name"`
 	FullName        string   `json:"full-name"`
 	Intelligence    int      `json:"intelligence"`
