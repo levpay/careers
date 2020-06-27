@@ -63,3 +63,33 @@ func TestAPISuperNoDuplicate(t *testing.T) {
 		t.Error("O webservice esta duplicando os supers cadastrados")
 	}
 }
+
+func TestAPISuperListAll(t *testing.T) {
+	response1 := requestPath("POST", "/super", map[string]string{
+		"name": "wonder woman",
+	})
+	body1, _ := ioutil.ReadAll(response1.Body)
+	apiResponseBody1 := &superheroapi.APIResponseBody{}
+	json.Unmarshal(body1, apiResponseBody1)
+
+	response2 := requestPath("GET", "/super", map[string]string{})
+	body2, _ := ioutil.ReadAll(response2.Body)
+	apiResponseBody2 := &superheroapi.APIResponseBody{}
+	json.Unmarshal(body2, apiResponseBody2)
+
+	superFound := false
+	for _, super1 := range apiResponseBody1.Supers {
+		for _, super2 := range apiResponseBody2.Supers {
+			if reflect.DeepEqual(super1, super2) {
+				superFound = true
+				break
+			}
+		}
+		if superFound {
+			break
+		}
+	}
+	if !superFound {
+		t.Error("O webservice não esta listando os supers cadastrados")
+	}
+}

@@ -2,22 +2,19 @@ package superheroapi
 
 import "strings"
 
-func ConvertSuperFromDatabase(rawSuper []map[string]interface{}) *Super {
-	if len(rawSuper) == 0 {
-		return nil
-	}
+func ConvertSuperFromDatabase(rawSuper map[string]interface{}) *Super {
 	return &Super{
-		rawSuper[0]["uuid"].(string),
-		int(rawSuper[0]["superheroapi_id"].(int64)),
-		rawSuper[0]["name"].(string),
-		rawSuper[0]["full_name"].(string),
-		int(rawSuper[0]["intelligence"].(int64)),
-		int(rawSuper[0]["power"].(int64)),
-		rawSuper[0]["occupation"].(string),
-		rawSuper[0]["image"].(string),
-		strings.Split(rawSuper[0]["groups"].(string), "|"),
-		rawSuper[0]["category"].(string),
-		int(rawSuper[0]["number_relatives"].(int64)),
+		rawSuper["uuid"].(string),
+		int(rawSuper["superheroapi_id"].(int64)),
+		rawSuper["name"].(string),
+		rawSuper["full_name"].(string),
+		int(rawSuper["intelligence"].(int64)),
+		int(rawSuper["power"].(int64)),
+		rawSuper["occupation"].(string),
+		rawSuper["image"].(string),
+		strings.Split(rawSuper["groups"].(string), "|"),
+		rawSuper["category"].(string),
+		int(rawSuper["number_relatives"].(int64)),
 	}
 }
 
@@ -46,8 +43,20 @@ func AddSupersDatabase(supers []Super) error {
 func GetSuperBySuperHeroAPIIDDatabase(superHeroAPIID int) *Super {
 	db := GetDatabaseConnection()
 	rawSuper, err := db.Table("super").Where("superheroapi_id", "=", superHeroAPIID).Get()
-	if err != nil {
+	if err != nil || len(rawSuper) == 0 {
 		return nil
 	}
-	return ConvertSuperFromDatabase(rawSuper)
+	return ConvertSuperFromDatabase(rawSuper[0])
+}
+
+func ListSupersDatabase() []Super {
+	db := GetDatabaseConnection()
+	supers := []Super{}
+	rawSupers, err := db.Table("super").Get()
+	if err == nil {
+		for _, rawSuper := range rawSupers {
+			supers = append(supers, *ConvertSuperFromDatabase(rawSuper))
+		}
+	}
+	return supers
 }

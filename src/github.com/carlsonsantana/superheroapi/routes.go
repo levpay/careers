@@ -15,6 +15,11 @@ func GetRoutes() []Route {
 			"/super",
 			AddSuperHandler,
 		},
+		Route{
+			"GET",
+			"/super",
+			ListSuperHandler,
+		},
 	}
 	return routes
 }

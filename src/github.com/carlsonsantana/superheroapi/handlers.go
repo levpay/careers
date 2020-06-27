@@ -72,3 +72,11 @@ func AddSuperHandler(
 	AddSupersDatabase(supers)
 	writeResponse(responseWriter, createResponseSucess(supers))
 }
+
+func ListSuperHandler(
+	responseWriter http.ResponseWriter,
+	request *http.Request,
+) {
+	supers := ListSupersDatabase()
+	writeResponse(responseWriter, createResponseSucess(supers))
+}
