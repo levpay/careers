@@ -132,3 +132,14 @@ func ValidateInvalidFilterValues(filters map[string]string) *ValidationError {
 
 	return nil
 }
+
+func ValidateSuperExists(uuid string) *ValidationError {
+	if super := GetSuperByUUID(uuid); super == nil {
+		return &ValidationError{
+			http.StatusNotFound,
+			fmt.Sprintf("O super '%s' não existe.", uuid),
+		}
+	}
+
+	return nil
+}

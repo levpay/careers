@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 	"strings"
+
+	"github.com/gorilla/mux"
 )
 
 type APIResponseBody struct {
@@ -94,5 +96,24 @@ func ListSuperHandler(
 	}
 
 	supers := ListSupersDatabase(filters)
+	writeResponse(responseWriter, createResponseSucess(supers))
+}
+
+func DeleteSuperHandler(
+	responseWriter http.ResponseWriter,
+	request *http.Request,
+) {
+	urlParameters := mux.Vars(request)
+	uuid := urlParameters["uuid"]
+
+	if err := ValidateSuperExists(uuid); err != nil {
+		writeResponse(responseWriter, createResponseError(err))
+		return
+	}
+
+	super := GetSuperByUUID(uuid)
+	supers := []Super{*super}
+	DeleteSuperDatabase(super)
+
 	writeResponse(responseWriter, createResponseSucess(supers))
 }

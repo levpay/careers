@@ -2,6 +2,7 @@ package tests
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"reflect"
@@ -263,5 +264,34 @@ func TestAPISuperListFiltered(t *testing.T) {
 	if len(apiResponseBody6.Supers) != 4 {
 		t.Error("O não esta filtrando como deveria")
 		return
+	}
+}
+
+func TestAPIDeleteSuper(t *testing.T) {
+	response1 := requestPath("POST", "/super", map[string]string{
+		"name": "green arrow",
+	})
+	body1, _ := ioutil.ReadAll(response1.Body)
+	apiResponseBody1 := &superheroapi.APIResponseBody{}
+	json.Unmarshal(body1, apiResponseBody1)
+	uuid := apiResponseBody1.Supers[0].UUID
+
+	response2 := requestPath(
+		"DELETE",
+		fmt.Sprintf("/super/%s", uuid),
+		map[string]string{},
+	)
+	if response2.StatusCode == http.StatusNotFound {
+		t.Error("O webservice não esta devolvendo o código correto quando o parâmetro name não é informado")
+		return
+	}
+
+	response3 := requestPath("GET", "/super", map[string]string{"uuid": uuid})
+	body3, _ := ioutil.ReadAll(response3.Body)
+	apiResponseBody3 := &superheroapi.APIResponseBody{}
+	json.Unmarshal(body3, apiResponseBody3)
+
+	if len(apiResponseBody3.Supers) != 0 {
+		t.Error("O webservice não esta deletando os supers.")
 	}
 }

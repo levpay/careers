@@ -153,6 +153,23 @@ func GetSuperBySuperHeroAPIIDDatabase(superHeroAPIID int) *Super {
 	return ConvertSuperFromDatabase(rawSuper[0])
 }
 
+func GetSuperByUUID(uuid string) *Super {
+	db := GetDatabaseConnection()
+	rawSuper, err := db.Table("super").Where(
+		/*
+		 * Because buildsqlx bug I need to add a single quote before and
+		 * after the column name.
+		 */
+		"'''' || uuid || ''''",
+		"=",
+		uuid,
+	).Get()
+	if err != nil || len(rawSuper) == 0 {
+		return nil
+	}
+	return ConvertSuperFromDatabase(rawSuper[0])
+}
+
 func ListSupersDatabase(filters map[string]string) []Super {
 	db := GetDatabaseConnection()
 	supers := []Super{}
@@ -169,4 +186,9 @@ func ListSupersDatabase(filters map[string]string) []Super {
 		}
 	}
 	return supers
+}
+
+func DeleteSuperDatabase(super *Super) {
+	db := GetDatabaseConnection()
+	db.Table("super").Where("uuid", "=", super.UUID).Delete()
 }

@@ -20,6 +20,11 @@ func GetRoutes() []Route {
 			"/super",
 			ListSuperHandler,
 		},
+		Route{
+			"DELETE",
+			"/super/{uuid}",
+			DeleteSuperHandler,
+		},
 	}
 	return routes
 }
