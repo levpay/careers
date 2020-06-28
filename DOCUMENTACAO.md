@@ -28,6 +28,11 @@ Para o desenvolvimento desta API foi utilizada a versão 1.14 do Go.
 
 Foram utilizadas as seguintes bibliotecas para o desenvolvimento desta API:
 - github.com/gorilla/mux
+- github.com/arthurkushman/buildsqlx
+- github.com/lib/pq
+- github.com/satori/go.uuid
+- github.com/go-pg/pg/v9
+- github.com/robinjoseph08/go-pg-migrations/v2
 
 É possível baixar todas as dependências executando o seguinte comando no diretório raiz do projeto:
 
