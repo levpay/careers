@@ -3,6 +3,7 @@ package superheroapi
 import (
 	"encoding/json"
 	"net/http"
+	"strings"
 )
 
 type APIResponseBody struct {
@@ -77,6 +78,21 @@ func ListSuperHandler(
 	responseWriter http.ResponseWriter,
 	request *http.Request,
 ) {
-	supers := ListSupersDatabase()
+	filters := map[string]string{}
+	query := request.URL.Query()
+	for key, value := range query {
+		filters[key] = strings.Join(value, ", ")
+	}
+
+	if err := ValidateInvalidFilterParameters(filters); err != nil {
+		writeResponse(responseWriter, createResponseError(err))
+		return
+	}
+	if err := ValidateInvalidFilterValues(filters); err != nil {
+		writeResponse(responseWriter, createResponseError(err))
+		return
+	}
+
+	supers := ListSupersDatabase(filters)
 	writeResponse(responseWriter, createResponseSucess(supers))
 }

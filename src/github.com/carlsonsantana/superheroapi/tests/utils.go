@@ -22,8 +22,15 @@ func createRequest(
 		path,
 		strings.NewReader(data.Encode()),
 	)
+
 	if method == "POST" {
 		request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+	} else if method == "GET" {
+		query := request.URL.Query()
+		for key, value := range parameters {
+			query.Set(key, value)
+		}
+		request.URL.RawQuery = query.Encode()
 	}
 	return request
 }
