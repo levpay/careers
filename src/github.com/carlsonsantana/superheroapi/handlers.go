@@ -32,8 +32,8 @@ func createResponseError(validationError *ValidationError) APIResponse {
 	}
 }
 
-func createResponseSucess(supers []Super) APIResponse {
-	responseBody := APIResponseBody{"sucess", supers, ""}
+func createResponseSuccess(supers []Super) APIResponse {
+	responseBody := APIResponseBody{"success", supers, ""}
 	return APIResponse{http.StatusOK, responseBody}
 }
 
@@ -73,7 +73,7 @@ func AddSuperHandler(
 
 	supers := ConvertSuperHeroAPIResponseToSuper(superHeroAPIResponse)
 	AddSupersDatabase(supers)
-	writeResponse(responseWriter, createResponseSucess(supers))
+	writeResponse(responseWriter, createResponseSuccess(supers))
 }
 
 func ListSuperHandler(
@@ -96,7 +96,7 @@ func ListSuperHandler(
 	}
 
 	supers := ListSupersDatabase(filters)
-	writeResponse(responseWriter, createResponseSucess(supers))
+	writeResponse(responseWriter, createResponseSuccess(supers))
 }
 
 func DeleteSuperHandler(
@@ -115,5 +115,5 @@ func DeleteSuperHandler(
 	supers := []Super{*super}
 	DeleteSuperDatabase(super)
 
-	writeResponse(responseWriter, createResponseSucess(supers))
+	writeResponse(responseWriter, createResponseSuccess(supers))
 }
