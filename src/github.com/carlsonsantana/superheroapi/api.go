@@ -1,8 +1,10 @@
 package superheroapi
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
 )
@@ -18,5 +20,8 @@ func InitAPI() {
 
 	InitPaths(router, GetRoutes())
 
-	log.Fatal(http.ListenAndServe(":8080", router))
+	log.Fatal(http.ListenAndServe(
+		fmt.Sprintf(":%s", os.Getenv("HTTP_PORT")),
+		router,
+	))
 }

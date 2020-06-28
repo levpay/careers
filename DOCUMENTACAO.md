@@ -10,6 +10,7 @@ Nesta seção é descritas as configurações necessárias para poder executar e
 
 Para executar o projeto é necessário que as seguintes variáveis de ambiente estejam configuradas:
 
+- `HTTP_PORT` com o valor igual a port HTTP do WebService;
 - `GOROOT` com o valor igual ao diretório raiz do Go;
 - `GOPATH` com o valor igual ao diretório onde as dependências serão instaladas.
 - `SUPERHEROAPI_TOKEN` com o valor do token da API do webservice [SuperHero API](https://superheroapi.com/);
