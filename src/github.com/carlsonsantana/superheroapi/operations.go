@@ -118,9 +118,8 @@ func filterQueryByParameter(
 	return nil
 }
 
-func AddSupersDatabase(supers []Super) error {
+func AddSupersDatabase(supers []Super) {
 	db := GetDatabaseConnection()
-	inserts := []map[string]interface{}{}
 	for _, super := range supers {
 		insert := map[string]interface{}{
 			"uuid":             super.UUID,
@@ -135,9 +134,8 @@ func AddSupersDatabase(supers []Super) error {
 			"category":         super.Category,
 			"number_relatives": super.NumberRelatives,
 		}
-		inserts = append(inserts, insert)
+		db.Table("super").Insert(insert)
 	}
-	return db.Table("super").InsertBatch(inserts)
 }
 
 func GetSuperBySuperHeroAPIIDDatabase(superHeroAPIID int) *Super {
