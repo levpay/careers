@@ -53,6 +53,7 @@ Através da API deve ser possível:
 
 A ideia aqui é entender como você toma suas decisões frente a certas adversidades e como você desenvolve através de multiplas funcionalidades.
 
+
 Pontos que vamos avaliar:
 - Commits
     - como você evoluiu seu pensamento durante o projeto, pontualidade e clareza.
